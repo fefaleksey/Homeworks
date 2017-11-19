@@ -4,14 +4,18 @@ using System.Collections.Generic;
 
 namespace BinarySearchTree
 {
+    /// <summary>
+    /// Class which realise binary tree
+    /// </summary>
+    /// <typeparam name="T">T is IComparable</typeparam>
     public class BinaryTree <T> : IEnumerable<T> where T : IComparable
     {
 
-        public Node Root;
+        private Node _root;
 
         public BinaryTree(T value)
         {
-            Root = new Node(value);
+            _root = new Node(value);
         }
 		
         /// <summary>
@@ -21,7 +25,8 @@ namespace BinarySearchTree
         /// <returns>preferens on max element</returns>
         private static Node SearchMaxElement(Node root)
         {
-            if (root.Right != null) return SearchMaxElement(root.Right);
+            if (root.Right != null) 
+                return SearchMaxElement(root.Right);
             return root;
         }
 
@@ -32,100 +37,131 @@ namespace BinarySearchTree
         }
 
         /// <summary>
-        /// Add element ell in tree with root "root"
+        /// Add element value element tree with root "root"
+        /// </summary>
+        /// <param name="value">value of element</param>
+        public void Add(T value)
+        {
+            AddElement(_root, value);
+        }
+        
+        /// <summary>
+        /// Add element value element tree with root "root"
         /// </summary>
         /// <param name="root">root of tree</param>
-        /// <param name="ell">element</param>
-        public void Add(Node root, T ell)
+        /// <param name="value">element</param>
+        private void AddElement(Node root, T value)
         {
-            if (ell.CompareTo(root.Value) >= 0)
+            if (value.CompareTo(root.Value) >= 0)
             {
                 if (root.Right == null)
                 {
-                    root.Right = new Node(ell)
+                    root.Right = new Node(value)
                     {
                         Parent = root
                     };
 
                     root.Right.Parent = root;
                 }
-                else Add(root.Right, ell);
+                else AddElement(root.Right, value);
             }
             else
             {
                 if (root.Left == null)
                 {
-                    root.Left = new Node(ell)
+                    root.Left = new Node(value)
                     {
                         Parent = root
                     };
                 }
-                else Add(root.Left, ell);
+                else AddElement(root.Left, value);
             }
+        }
+        
+        /// <summary>
+        /// check included of element in tree
+        /// </summary>
+        /// <param name="value">value of element</param>
+        /// <returns>reference to element</returns>
+        public bool ElementIsExist(T value)
+        {
+            if (value.CompareTo(_root.Value) == 0) return true;
+            if (value.CompareTo(_root.Value) == 1)
+            {
+                if (_root.Right == null) return false;
+                SearchElement(_root.Right, value);
+            }
+            if (_root.Left == null) return false;
+            ElementIsExist(value);
+            return false;
         }
 
         /// <summary>
-        /// check included ell in tree
+        /// check included element in tree
         /// </summary>
-        /// <param name="root"></param>
-        /// <param name="ell"></param>
-        /// <returns></returns>
-        public static Node SearchElement(Node root, T ell)
+        /// <param name="root">root of tree</param>
+        /// <param name="value">element</param>
+        /// <returns>reference to element</returns>
+        private Node SearchElement(Node root, T value)
         {
-            if (ell.CompareTo(root.Value) == 0) return root;
-            if (ell.CompareTo(root.Value) == 1)
+            if (value.CompareTo(root.Value) == 0) 
+                return root;
+            if (value.CompareTo(root.Value) == 1)
             {
                 if (root.Right == null) return null;
-                SearchElement(root.Right, ell);
+                return SearchElement(root.Right, value);
             }
             if (root.Left == null) return null;
-            SearchElement(root.Left, ell);
-            return null;
+            return SearchElement(root.Left, value);
         }
 
         /// <summary>
-        /// delete node
+        /// delete node with value "value"
         /// </summary>
-        /// <param name="node">node which we will be delete</param>
-        /// <returns>new root</returns>
-        public static Node Delete(Node node)
+        /// <param name="value">value of element which we will delete</param>
+        public void Delete(T value)
         {
-
+            var node = SearchElement(_root, value);
             if (node.Parent == null)
             {
                 if (node.Left == null)
                 {
-                    if (node.Right == null) return null;
+                    if (node.Right == null)
+                    {
+                        _root = null;
+                        return;
+                    }
                     node.Right.Parent = null;
-                    return node.Right;
+                    _root = node.Right;
+                    return;
                 }
                 else
                 {
                     if (node.Right == null)
                     {
                         node.Left.Parent = null;
-                        return node.Left;
+                        _root = node.Left;
+                        return;
                     }
-                    Node b = node;
+                    Node ancillary = node;
 
                     node = SearchMaxElement(node.Left);
-                    if (node.Parent == b)
+                    if (node.Parent == ancillary)
                     {
                         node.Parent = null;
-                        node.Right = b.Right;
-                        return node;
+                        node.Right = ancillary.Right;
+                        _root = node;
+                        return;
                     }
                     node.Parent = null;
-                    node.Left = b.Left;
-                    node.Right = b.Right;
-                    return node;
+                    node.Left = ancillary.Left;
+                    node.Right = ancillary.Right;
+                    _root = node;
+                    return;
                 }
             }
-
-
             if (node.Left == null && node.Right == null)
             {
-
                 if (node == node.Parent.Left)
                 {
                     node.Parent.Left = null;
@@ -134,7 +170,8 @@ namespace BinarySearchTree
                 {
                     node.Parent.Right = null;
                 }
-                return GetRoot(node);
+                _root = GetRoot(node);
+                return;
             }
 
             if (node.Left == null)
@@ -142,36 +179,36 @@ namespace BinarySearchTree
                 node.Right.Parent = node.Parent;
                 if (node == node.Parent.Left) node.Parent.Left = node.Right;
                 else node.Parent.Right = node.Right;
-                return GetRoot(node.Parent);
+                _root = GetRoot(node.Parent);
+                return;
             }
             if (node.Right == null)
             {
                 node.Left.Parent = node.Parent;
                 if (node == node.Parent.Left) node.Parent.Left = node.Left;
                 else node.Parent.Right = node.Left;
-                return GetRoot(node.Parent);
+                _root = GetRoot(node.Parent);
+                return;
             }
-            Node a = node;
+            Node auxiliary = node;
             node = SearchMaxElement(node.Left);
-            if (node.Parent == a)
+            if (node.Parent == auxiliary)
             {
                 node.Parent = null;
-                node.Right = a.Right;
-                return node;
+                node.Right = auxiliary.Right;
+                _root = node;
+                return;
             }
             node.Parent = null;
-            node.Left = a.Left;
-            node.Right = a.Right;
-            return GetRoot(node.Parent);
+            node.Left = auxiliary.Left;
+            node.Right = auxiliary.Right;
+            _root = GetRoot(node.Parent);
         }
 
         /// <summary>
-        /// Reilized for IEnumerable
+        /// Reilize for IEnumerable
         /// </summary>
-        public IEnumerator GetEnumerator()
-        {
-            return new TreeEnumerator(this);
-        }
+        public IEnumerator GetEnumerator() => new TreeEnumerator(this);
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
@@ -179,7 +216,7 @@ namespace BinarySearchTree
         }
 
         /// <summary>
-        /// Realized for IEnumerator
+        /// Realize for IEnumerator
         /// </summary>
         private class TreeEnumerator : IEnumerator<T>
         {
@@ -192,7 +229,7 @@ namespace BinarySearchTree
             {
                 _position = -1;
                 _list = new List<T>();
-                RewriteInList(currentTree.Root);
+                RewriteInList(currentTree._root);
             }
 
             /// <summary>
@@ -221,19 +258,18 @@ namespace BinarySearchTree
             public bool MoveNext()
             {
                 _position++;
-                return (_position < _list.Count);
+                return _position < _list.Count;
             }
 			
             public void Dispose()
             {
-                //throw new NotImplementedException();
             }
         }
 		
         /// <summary>
         /// Class which realise elements for tree
         /// </summary>
-        public class Node
+        private class Node
         {
             public T Value { get; private set; }
             public Node Left { get; set; }

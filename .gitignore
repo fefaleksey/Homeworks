@@ -97,7 +97,6 @@ Makefile*
 
 # C#
 *.xml
-*.sln
 *.nupkg
 *.tdnet
 *.iml
