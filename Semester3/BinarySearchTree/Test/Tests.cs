@@ -93,5 +93,33 @@ namespace Test
             tree.Delete(6);
             Assert.True(tree.IsExist(4));
         }
+        [Fact]
+        public void Test_DeleteNonTrivial1()
+        {
+            var tree = new BinaryTree<int>(2);
+            tree.Add(1);
+            tree.Add(6);
+            tree.Add(3);
+            tree.Add(5);
+            tree.Add(4);
+            tree.Add(7);
+            tree.Delete(6);
+            Assert.True(tree.IsExist(4));
+            Assert.False(tree.IsExist(6));
+        }
+        
+        [Fact]
+        public void Test_DeleteNonTrivial3()
+        {
+            var tree = new BinaryTree<int>(2);
+            tree.Add(1);
+            tree.Add(6);
+            tree.Add(3);
+            tree.Add(5);
+            tree.Add(4);
+            tree.Add(7);
+            tree.Delete(6);
+            Assert.True(tree.IsExist(4));
+        }
     }
 }

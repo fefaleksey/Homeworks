@@ -218,14 +218,16 @@ namespace BinarySearchTree
             }
             Node auxiliary = node;
             node = SearchMaxElement(node.Left);
+            if (node.Left != null)
+            {
+                node.Left.Parent = node.Parent;
+                node.Parent.Right = node.Left;
+            }
             node.Parent = auxiliary.Parent;
             node.Left = auxiliary.Left;
             node.Right = auxiliary.Right;
-            if (node.Left != null)
-            {
-                node.Left.Parent = node;
-            }
-            if (node.Right.Parent != null)
+            auxiliary.Parent.Right = node;
+            if (node.Right != null)
             {
                 node.Right.Parent = node;
             }
