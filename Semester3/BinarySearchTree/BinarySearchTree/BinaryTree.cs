@@ -7,22 +7,34 @@ namespace BinarySearchTree
     /// <summary>
     /// Class which realise binary tree
     /// </summary>
-    /// <typeparam name="T">T is IComparable</typeparam>
+    /// <typeparam name="T">T is type of value which we can put in tree</typeparam>
     public class BinaryTree <T> : IEnumerable<T> where T : IComparable
     {
 
         private Node _root;
-
-        public BinaryTree(T value)
+        
+        /// <summary>
+        /// Constructor for tree
+        /// </summary>
+        /// <param name="value">value of root</param>
+        /// <param name="empty">flag which show that we will create empty tree</param>
+        public BinaryTree(T value, bool empty)
         {
-            _root = new Node(value);
+            if (!empty)
+            {
+                _root = new Node(value);
+            }
+            else
+            {
+                _root = null;
+            }
         }
 		
         /// <summary>
         /// Search max element
         /// </summary>
         /// <param name="root">root of tree</param>
-        /// <returns>preferens on max element</returns>
+        /// <returns>referens on max element</returns>
         private static Node SearchMaxElement(Node root)
         {
             if (root.Right != null) 
@@ -32,21 +44,21 @@ namespace BinarySearchTree
 
         private static Node GetRoot(Node node)
         {
-            if (node.Parent != null) return GetRoot(node.Parent);
+            if (node.Parent != null)
+            {
+                return GetRoot(node.Parent);
+            }
             return node;
         }
 
         /// <summary>
-        /// Add element value element tree with root "root"
+        /// Inserts an element with a value "value"
         /// </summary>
         /// <param name="value">value of element</param>
-        public void Add(T value)
-        {
-            AddElement(_root, value);
-        }
+        public void Add(T value) => AddElement(_root, value);
         
         /// <summary>
-        /// Add element value element tree with root "root"
+        /// Add element "value" in tree with root "root"
         /// </summary>
         /// <param name="root">root of tree</param>
         /// <param name="value">element</param>
@@ -56,25 +68,24 @@ namespace BinarySearchTree
             {
                 if (root.Right == null)
                 {
-                    root.Right = new Node(value)
-                    {
-                        Parent = root
-                    };
-
+                    root.Right = new Node(value, root);
                     root.Right.Parent = root;
                 }
-                else AddElement(root.Right, value);
+                else
+                {
+                    AddElement(root.Right, value);
+                }
             }
             else
             {
                 if (root.Left == null)
                 {
-                    root.Left = new Node(value)
-                    {
-                        Parent = root
-                    };
+                    root.Left = new Node(value, root);
                 }
-                else AddElement(root.Left, value);
+                else
+                {
+                    AddElement(root.Left, value);
+                }
             }
         }
         
@@ -83,18 +94,7 @@ namespace BinarySearchTree
         /// </summary>
         /// <param name="value">value of element</param>
         /// <returns>reference to element</returns>
-        public bool ElementIsExist(T value)
-        {
-            if (value.CompareTo(_root.Value) == 0) return true;
-            if (value.CompareTo(_root.Value) == 1)
-            {
-                if (_root.Right == null) return false;
-                SearchElement(_root.Right, value);
-            }
-            if (_root.Left == null) return false;
-            ElementIsExist(value);
-            return false;
-        }
+        public bool IsExist(T value) => SearchElement(_root, value) != null;
 
         /// <summary>
         /// check included element in tree
@@ -104,14 +104,21 @@ namespace BinarySearchTree
         /// <returns>reference to element</returns>
         private Node SearchElement(Node root, T value)
         {
-            if (value.CompareTo(root.Value) == 0) 
+            if (value.CompareTo(root.Value) == 0)
+            {
                 return root;
+            }
             if (value.CompareTo(root.Value) == 1)
             {
                 if (root.Right == null) return null;
-                return SearchElement(root.Right, value);
+                {
+                    return SearchElement(root.Right, value);
+                }
             }
-            if (root.Left == null) return null;
+            if (root.Left == null)
+            {
+                return null;
+            }
             return SearchElement(root.Left, value);
         }
 
@@ -156,6 +163,14 @@ namespace BinarySearchTree
                     node.Parent = null;
                     node.Left = ancillary.Left;
                     node.Right = ancillary.Right;
+                    if (ancillary.Left != null)
+                    {
+                        ancillary.Left.Parent = node;
+                    }
+                    if (ancillary.Right.Parent != null)
+                    {
+                        ancillary.Right.Parent = node;
+                    }
                     _root = node;
                     return;
                 }
@@ -170,39 +185,48 @@ namespace BinarySearchTree
                 {
                     node.Parent.Right = null;
                 }
-                _root = GetRoot(node);
                 return;
             }
-
+            
             if (node.Left == null)
             {
                 node.Right.Parent = node.Parent;
-                if (node == node.Parent.Left) node.Parent.Left = node.Right;
-                else node.Parent.Right = node.Right;
-                _root = GetRoot(node.Parent);
+                if (node == node.Parent.Left)
+                {
+                    node.Parent.Left = node.Right;
+                }
+                else
+                {
+                    node.Parent.Right = node.Right;
+                }
                 return;
             }
             if (node.Right == null)
             {
                 node.Left.Parent = node.Parent;
-                if (node == node.Parent.Left) node.Parent.Left = node.Left;
-                else node.Parent.Right = node.Left;
-                _root = GetRoot(node.Parent);
+                if (node == node.Parent.Left)
+                {
+                    node.Parent.Left = node.Left;
+                }
+                else
+                {
+                    node.Parent.Right = node.Left;
+                }
                 return;
             }
             Node auxiliary = node;
             node = SearchMaxElement(node.Left);
-            if (node.Parent == auxiliary)
-            {
-                node.Parent = null;
-                node.Right = auxiliary.Right;
-                _root = node;
-                return;
-            }
-            node.Parent = null;
+            node.Parent = auxiliary.Parent;
             node.Left = auxiliary.Left;
             node.Right = auxiliary.Right;
-            _root = GetRoot(node.Parent);
+            if (node.Left != null)
+            {
+                node.Left.Parent = node;
+            }
+            if (node.Right.Parent != null)
+            {
+                node.Right.Parent = node;
+            }
         }
 
         /// <summary>
@@ -223,7 +247,6 @@ namespace BinarySearchTree
             private int _position;
 
             private List<T> _list;
-            //private IEnumerator<T> _enumeratorImplementation;
 
             public TreeEnumerator(BinaryTree<T> currentTree)
             {
@@ -279,6 +302,12 @@ namespace BinarySearchTree
             public Node(T value)
             {
                 Value = value;
+            }
+            
+            public Node(T value, Node parent)
+            {
+                Value = value;
+                Parent = parent;
             }
         }
     }

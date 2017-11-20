@@ -7,64 +7,64 @@ namespace Test
     public class BinaryTreeTests
     {
         [Fact]
-        public void Test_ElementIsExist()
+        public void Test_IsExist()
         {
-            var tree = new BinaryTree<int>(5);
+            var tree = new BinaryTree<int>(5, false);
             tree.Add(3);
             tree.Add(4);
-            Assert.True(tree.ElementIsExist(3));
+            Assert.True(tree.IsExist(3));
         }
 
         [Fact]
         public void Test_Add()
         {
-            var tree = new BinaryTree<int>(5);
+            var tree = new BinaryTree<int>(5, false);
             tree.Add(3);
-            Assert.True(tree.ElementIsExist(3));
+            Assert.True(tree.IsExist(3));
         }
 
         [Fact]
         public void Test_AddSeveralElements()
         {
-            var tree = new BinaryTree<int>(5);
+            var tree = new BinaryTree<int>(5, false);
             tree.Add(3);
             tree.Add(6);
             tree.Add(8);
             tree.Add(4);
             tree.Add(1);
-            Assert.True(tree.ElementIsExist(3));
-            Assert.True(tree.ElementIsExist(6));
-            Assert.True(tree.ElementIsExist(8));
-            Assert.True(tree.ElementIsExist(4));
-            Assert.True(tree.ElementIsExist(1));
-            Assert.True(tree.ElementIsExist(5));
+            Assert.True(tree.IsExist(3));
+            Assert.True(tree.IsExist(6));
+            Assert.True(tree.IsExist(8));
+            Assert.True(tree.IsExist(4));
+            Assert.True(tree.IsExist(1));
+            Assert.True(tree.IsExist(5));
         }
 
         [Fact]
         public void Test_Delete()
         {
-            var tree = new BinaryTree<int>(5);
+            var tree = new BinaryTree<int>(5, false);
             tree.Add(3);
             tree.Add(4);
             tree.Delete(3);
-            Assert.True(tree.ElementIsExist(4));
+            Assert.True(tree.IsExist(4));
         }
 
         [Fact]
         public void Test_DeleteSeveralElements()
         {
-            var tree = new BinaryTree<int>(5);
+            var tree = new BinaryTree<int>(5, false);
             tree.Add(3);
             tree.Add(4);
 
             tree.Delete(3);
-            Assert.True(tree.ElementIsExist(4));
+            Assert.True(tree.IsExist(4));
         }
 
         [Fact]
         public void Test_Foreach()
         {
-            var tree = new BinaryTree<int>(5);
+            var tree = new BinaryTree<int>(5, false);
             tree.Add(3);
             tree.Add(4);
             tree.Add(6);
@@ -76,11 +76,8 @@ namespace Test
                 treeValue[i] = value;
                 i++;
             }
-            Assert.True(treeValue[0] == 3);
-            Assert.True(treeValue[1] == 4);
-            Assert.True(treeValue[2] == 5);
-            Assert.True(treeValue[3] == 6);
-            Assert.True(treeValue[4] == 7);
+            var aclualValues = new int[5] {3, 4, 5, 6, 7};
+            Assert.Equal(treeValue, aclualValues);
         }
     }
 }
