@@ -17,17 +17,17 @@ namespace BinarySearchTree
         /// Constructor for tree
         /// </summary>
         /// <param name="value">value of root</param>
-        /// <param name="empty">flag which show that we will create empty tree</param>
-        public BinaryTree(T value, bool empty)
+        public BinaryTree(T value)
         {
-            if (!empty)
-            {
                 _root = new Node(value);
-            }
-            else
-            {
-                _root = null;
-            }
+        }
+
+        /// <summary>
+        /// Constructor for empty tree
+        /// </summary>
+        public BinaryTree()
+        {
+            _root = null;
         }
 		
         /// <summary>
@@ -37,8 +37,10 @@ namespace BinarySearchTree
         /// <returns>referens on max element</returns>
         private static Node SearchMaxElement(Node root)
         {
-            if (root.Right != null) 
+            if (root.Right != null)
+            {
                 return SearchMaxElement(root.Right);
+            }
             return root;
         }
 

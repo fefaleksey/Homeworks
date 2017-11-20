@@ -9,7 +9,7 @@ namespace Test
         [Fact]
         public void Test_IsExist()
         {
-            var tree = new BinaryTree<int>(5, false);
+            var tree = new BinaryTree<int>(5);
             tree.Add(3);
             tree.Add(4);
             Assert.True(tree.IsExist(3));
@@ -18,7 +18,7 @@ namespace Test
         [Fact]
         public void Test_Add()
         {
-            var tree = new BinaryTree<int>(5, false);
+            var tree = new BinaryTree<int>(5);
             tree.Add(3);
             Assert.True(tree.IsExist(3));
         }
@@ -26,7 +26,7 @@ namespace Test
         [Fact]
         public void Test_AddSeveralElements()
         {
-            var tree = new BinaryTree<int>(5, false);
+            var tree = new BinaryTree<int>(5);
             tree.Add(3);
             tree.Add(6);
             tree.Add(8);
@@ -43,7 +43,7 @@ namespace Test
         [Fact]
         public void Test_Delete()
         {
-            var tree = new BinaryTree<int>(5, false);
+            var tree = new BinaryTree<int>(5);
             tree.Add(3);
             tree.Add(4);
             tree.Delete(3);
@@ -53,7 +53,7 @@ namespace Test
         [Fact]
         public void Test_DeleteSeveralElements()
         {
-            var tree = new BinaryTree<int>(5, false);
+            var tree = new BinaryTree<int>(5);
             tree.Add(3);
             tree.Add(4);
 
@@ -64,7 +64,7 @@ namespace Test
         [Fact]
         public void Test_Foreach()
         {
-            var tree = new BinaryTree<int>(5, false);
+            var tree = new BinaryTree<int>(5);
             tree.Add(3);
             tree.Add(4);
             tree.Add(6);
@@ -78,6 +78,20 @@ namespace Test
             }
             var aclualValues = new int[5] {3, 4, 5, 6, 7};
             Assert.Equal(treeValue, aclualValues);
+        }
+        
+        [Fact]
+        public void Test_DeleteNonTrivial()
+        {
+            var tree = new BinaryTree<int>(2);
+            tree.Add(1);
+            tree.Add(6);
+            tree.Add(3);
+            tree.Add(5);
+            tree.Add(4);
+            tree.Add(7);
+            tree.Delete(6);
+            Assert.True(tree.IsExist(4));
         }
     }
 }
