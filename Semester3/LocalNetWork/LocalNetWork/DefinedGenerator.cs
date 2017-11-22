@@ -3,16 +3,24 @@
     /// <summary>
     /// Not randomly number generator for tests
     /// </summary>
-    public class DefinedGenerator : Generator
+    public class DefinedGenerator : IGenerator
     {
         private double[] _arrayOfRandom;
         private int _pointer = -1;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="array">array which contain probabilites</param>
         public DefinedGenerator(double[] array)
         {
             _arrayOfRandom = array;
         }
 
+        /// <summary>
+        /// Get curent probability
+        /// </summary>
+        /// <returns>curent probability</returns>
         public double GetNumber()
         {
             _pointer++;

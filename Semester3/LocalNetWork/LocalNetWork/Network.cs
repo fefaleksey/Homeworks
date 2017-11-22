@@ -1,4 +1,6 @@
-﻿namespace LocalNetWork
+﻿using System.Collections.Generic;
+
+namespace LocalNetWork
 {
     /// <summary>
     /// Local network for using
@@ -15,7 +17,7 @@
         /// <param name="operationSystemOfComps">array where show which OS the comp has</param>
         /// <param name="matrix">adjacency matrix where show computer connection</param>
         /// <param name="generator">used Generator</param>
-        public Network(bool[] infected, string[] operationSystemOfComps, int[,] matrix, Generator generator)
+        public Network(bool[] infected, string[] operationSystemOfComps, int[,] matrix, IGenerator generator)
         {
             var numberOfComps = infected.Length;
             _computers = new Computer[numberOfComps];
@@ -50,6 +52,50 @@
                 }
             }
             return state;
+        }
+    }
+    
+    /// <summary>
+    /// Network model
+    /// </summary>
+    class NetworkModel
+    {
+        private Computer[] _computers;
+        private int[,] _compsMatrix;
+        private IGenerator _generator;
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="comps">the concrete computers</param>
+        /// <param name="matrix">adjacency matrix where show computer connection</param>
+        /// <param name="numberGenerator">used Generator</param>
+        public NetworkModel(Computer[] comps, int[,] matrix, IGenerator numberGenerator)
+        {
+            _computers = comps;
+            _compsMatrix = matrix;
+            _generator = numberGenerator;
+        }
+
+        /// <summary>
+        /// show the next state of the network
+        /// </summary>
+        /// <returns></returns>
+        public Computer[] NetworkState()
+        {
+            return _computers;
+        }
+
+        /// <summary>
+        /// moves to the next state of the network
+        /// </summary>
+        public void MakeStep()
+        {
+            List<int> indexInfected = Algorithm.MakeInfection(_computers, _compsMatrix, _generator);
+            foreach (var index in indexInfected)
+            {
+                _computers[index].IsInfected = true;
+            }
         }
     }
 }

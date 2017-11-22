@@ -8,13 +8,13 @@ namespace LocalNetWork
     static class Algorithm
     {
         /// <summary>
-        /// How computers infect
+        /// Infection of computers
         /// </summary>
         /// <param name="computers">the concrete computers</param>
-        /// <param name="adjacencyMatrix">matrix, where computer connection</param>
+        /// <param name="adjacencyMatrix">matrix with computers</param>
         /// <param name="numberGenerator">used Generator</param>
         /// <returns>index of computers which will be infected</returns>
-        public static List<int> MakeInfection(Computer[] computers, int[,] adjacencyMatrix, Generator numberGenerator)
+        public static List<int> MakeInfection(Computer[] computers, int[,] adjacencyMatrix, IGenerator numberGenerator)
         {
             var indexInfected = new List<int>();
             var number = numberGenerator.GetNumber();

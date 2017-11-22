@@ -46,7 +46,6 @@
     <Compile Include="DefinedGenerator.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="Network.cs" />
-    <Compile Include="NetworkModel.cs" />
     <Compile Include="OperationSystem.cs" />
     <Compile Include="OSConversion.cs" />
     <Compile Include="OSLinux.cs" />

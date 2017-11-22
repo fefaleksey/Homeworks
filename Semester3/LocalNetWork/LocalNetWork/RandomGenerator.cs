@@ -2,7 +2,7 @@
 
 namespace LocalNetWork
 {
-    public class RandomGenerator : Generator
+    public class RandomGenerator : IGenerator
     {
         private Random _random = new Random();
 

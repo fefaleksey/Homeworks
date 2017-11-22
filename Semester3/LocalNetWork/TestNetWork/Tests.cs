@@ -8,7 +8,7 @@ namespace TestNetWork
 		private Network _network;
 		private int[,] _matrixOfComps;
 		private static readonly double[] RandomArray = {0.3, 0.2};
-		private Generator _numberGenerator;
+		private IGenerator _numberGenerator;
 
 		public void Init()
 		{

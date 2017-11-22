@@ -3,7 +3,7 @@
     /// <summary>
     /// Interface for generation of numbers
     /// </summary>
-    public interface Generator
+    public interface IGenerator
     {
         double GetNumber();
     }
