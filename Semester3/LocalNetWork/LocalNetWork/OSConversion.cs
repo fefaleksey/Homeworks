@@ -5,10 +5,10 @@ namespace LocalNetWork
     /// <summary>
     /// Converse from string to operation system
     /// </summary>
-    class OSConversion
+    static class OSConversion
     {
         /// <summary>
-        /// create a new computer with the specified OS
+        /// Create a new computer with the specified OS
         /// </summary>
         /// <param name="operationSystem">A string which contain the name of OS</param>
         /// <returns>new OS</returns>

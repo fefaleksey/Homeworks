@@ -23,7 +23,7 @@ namespace TestNetWork
 			string[] os = {"linux"};
 			_matrixOfComps = new[,] {{1}};
 			_network = new Network(infected, os, _matrixOfComps, _numberGenerator);
-			Assert.Equal(_network.NetworkState(), "Infected: 1 ");
+			Assert.Equal("Infected: 1 ", _network.NetworkState());
 		}
 
 		[Fact]
@@ -34,7 +34,7 @@ namespace TestNetWork
 			string[] os = {"linux", "windows"};
 			_matrixOfComps = new[,] {{0, 1}, {1, 0}};
 			_network = new Network(infected, os, _matrixOfComps, _numberGenerator);
-			Assert.Equal(_network.NetworkState(), "Infected: 2 ");
+			Assert.Equal("Infected: 2 ", _network.NetworkState());
 		}
 
 		[Fact]
@@ -46,7 +46,7 @@ namespace TestNetWork
 			_matrixOfComps = new[,] {{0, 1}, {1, 0}};
 			_network = new Network(infected, os, _matrixOfComps, _numberGenerator);
 			_network.MakeStep();
-			Assert.Equal(_network.NetworkState(), "Infected: 1 2 ");
+			Assert.Equal("Infected: 1 2 ", _network.NetworkState());
 		}
 
 		[Fact]
@@ -57,11 +57,11 @@ namespace TestNetWork
 			string[] os = {"linux", "windows", "mac"};
 			_matrixOfComps = new[,] {{0, 1, 0}, {1, 0, 1}, {0, 1, 0}};
 			_network = new Network(infected, os, _matrixOfComps, _numberGenerator);
-			Assert.Equal(_network.NetworkState(), "Infected: 2 ");
+			Assert.Equal("Infected: 2 ", _network.NetworkState());
 			_network.MakeStep();
-			Assert.Equal(_network.NetworkState(), "Infected: 2 3 ");
+			Assert.Equal("Infected: 2 3 ", _network.NetworkState());
 			_network.MakeStep();
-			Assert.Equal(_network.NetworkState(), "Infected: 1 2 3 ");
+			Assert.Equal("Infected: 1 2 3 ", _network.NetworkState());
 		}
 
 		[Fact]
@@ -72,11 +72,11 @@ namespace TestNetWork
 			string[] os = {"linux", "windows", "mac", "windows", "linux"};
 			_matrixOfComps = new[,] {{0, 1, 0, 0, 0}, {1, 0, 1, 0, 0}, {0, 1, 0, 1, 0}, {0, 0, 1, 0, 1}, {1, 0, 0, 1, 0}};
 			_network = new Network(infected, os, _matrixOfComps, _numberGenerator);
-			Assert.Equal(_network.NetworkState(), "Infected: 3 ");
+			Assert.Equal("Infected: 3 ", _network.NetworkState());
 			_network.MakeStep();
-			Assert.Equal(_network.NetworkState(), "Infected: 2 3 4 ");
+			Assert.Equal("Infected: 2 3 4 ", _network.NetworkState());
 			_network.MakeStep();
-			Assert.Equal(_network.NetworkState(), "Infected: 1 2 3 4 5 ");
+			Assert.Equal("Infected: 1 2 3 4 5 ", _network.NetworkState());
 		}
 	}
 }

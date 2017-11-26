@@ -6,7 +6,7 @@
     class Computer
     {
         /// <summary>
-        /// flag that shows, the computer is infected or not
+        /// Flag that shows, the computer is infected or not
         /// </summary>
         public bool IsInfected { get; set; }
         
@@ -16,10 +16,10 @@
         public OperationSystem OS { get; private set; }
 
         /// <summary>
-        /// constructor
+        /// Constructor
         /// </summary>
-        /// <param name="os">the concrete operation system</param>
-        /// <param name="isInfected">computer is infected or not</param>
+        /// <param name="os">The concrete operation system</param>
+        /// <param name="isInfected">Computer is infected or not</param>
         public Computer(OperationSystem os, bool isInfected)
         {
             OS = os;
@@ -29,8 +29,8 @@
         /// <summary>
         /// Try to infect the computer
         /// </summary>
-        /// <param name="value">probability of infection (obtained)</param>
-        /// <returns>computer was infected or not</returns>
+        /// <param name="value">Probability of infection (obtained)</param>
+        /// <returns>Computer was infected or not</returns>
         public bool TryInfect(double value) => OS.ProbabilityOfInfection >= value;
     }
 }

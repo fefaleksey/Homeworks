@@ -7,16 +7,16 @@ namespace LocalNetWork
     /// </summary>
     public class Network
     {
-        private NetworkModel _network;
         private Computer[] _computers;
-
+        private int[,] _compsMatrix;
+        private IGenerator _generator;
         /// <summary>
-        /// constructor
+        /// Constructor
         /// </summary>
-        /// <param name="infected">array where show comp is infested or not</param>
-        /// <param name="operationSystemOfComps">array where show which OS the comp has</param>
-        /// <param name="matrix">adjacency matrix where show computer connection</param>
-        /// <param name="generator">used Generator</param>
+        /// <param name="infected">Array where show comp is infested or not</param>
+        /// <param name="operationSystemOfComps">Array where show which OS the comp has</param>
+        /// <param name="matrix">Adjacency matrix where show computer connection</param>
+        /// <param name="generator">Used Generator</param>
         public Network(bool[] infected, string[] operationSystemOfComps, int[,] matrix, IGenerator generator)
         {
             var numberOfComps = infected.Length;
@@ -25,69 +25,12 @@ namespace LocalNetWork
             {
                 _computers[i] = new Computer(OSConversion.Convert(operationSystemOfComps[i]), infected[i]);
             }
-            _network = new NetworkModel(_computers, matrix, generator);
-        }
-
-        /// <summary>
-        /// moves to the next state of the network
-        /// </summary>
-        public void MakeStep()
-        {
-            _network.MakeStep();
-        }
-
-        /// <summary>
-        /// show the next state of the network
-        /// </summary>
-        /// <returns></returns>
-        public string NetworkState()
-        {
-            var state = "Infected: ";
-            _computers = _network.NetworkState();
-            for (var i = 0; i < _computers.Length; i++)
-            {
-                if (_computers[i].IsInfected)
-                {
-                    state += i + 1 + " ";
-                }
-            }
-            return state;
-        }
-    }
-    
-    /// <summary>
-    /// Network model
-    /// </summary>
-    class NetworkModel
-    {
-        private Computer[] _computers;
-        private int[,] _compsMatrix;
-        private IGenerator _generator;
-
-        /// <summary>
-        /// constructor
-        /// </summary>
-        /// <param name="comps">the concrete computers</param>
-        /// <param name="matrix">adjacency matrix where show computer connection</param>
-        /// <param name="numberGenerator">used Generator</param>
-        public NetworkModel(Computer[] comps, int[,] matrix, IGenerator numberGenerator)
-        {
-            _computers = comps;
             _compsMatrix = matrix;
-            _generator = numberGenerator;
+            _generator = generator;
         }
 
         /// <summary>
-        /// show the next state of the network
-        /// </summary>
-        /// <returns></returns>
-        public Computer[] NetworkState()
-        {
-            return _computers;
-        }
-
-        /// <summary>
-        /// moves to the next state of the network
+        /// Moves to the next state of the network
         /// </summary>
         public void MakeStep()
         {
@@ -96,6 +39,24 @@ namespace LocalNetWork
             {
                 _computers[index].IsInfected = true;
             }
+        }
+
+        /// <summary>
+        /// Show the next state of the network
+        /// </summary>
+        /// <returns></returns>
+        public string NetworkState()
+        {
+            var state = "Infected: ";
+            //_computers = _network.NetworkState();
+            for (var i = 0; i < _computers.Length; i++)
+            {
+                if (_computers[i].IsInfected)
+                {
+                    state += i + 1 + " ";
+                }
+            }
+            return state;
         }
     }
 }
