@@ -11,25 +11,26 @@
         private bool[] _robotsPosition;
         private bool[] _wasVisited;
 
-        /// <param name="numberOfVertices"></param>
-        /// <param name="positions">positions, where robots are there</param>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GraphWithRobots"/> class
+        /// </summary>
+        /// <param name="numberOfVertices">Number Of Vertices</param>
+        /// <param name="positions">Positions, where robots are there</param>
         public GraphWithRobots(int numberOfVertices, int[] positions)
         {
             _numberOfVertices = numberOfVertices;
             _matrix = new bool[numberOfVertices, numberOfVertices];
-            
+
             for (var i = 0; i < numberOfVertices; i++)
+            {
                 for (var j = 0; j < numberOfVertices; j++)
                 {
                     _matrix[i, j] = false;
                 }
-            
+            }
+
             _robotsPosition = new bool[numberOfVertices];
 
-            for (var i = 0; i < numberOfVertices; i++)
-            {
-                _robotsPosition[i] = false;
-            }
             for (var j = 0; j < positions.Length; j++)
             {
                 _robotsPosition[positions[j]] = true;
@@ -71,7 +72,7 @@
             return true;
         }
 
-        private void FindConnectedRobots(int vertex, ref int conected)
+        private void FindConnectedRobots(int vertex, ref int connected)
         {
             if (_wasVisited[vertex])
             {
@@ -80,7 +81,7 @@
 
             if (_robotsPosition[vertex])
             {
-                conected++;
+                connected++;
             }
             _wasVisited[vertex] = true;
             for (var i = 0; i < _numberOfVertices; i++)
@@ -91,7 +92,7 @@
                     {
                         if (_matrix[i, j])
                         {
-                            FindConnectedRobots(j, ref conected);
+                            FindConnectedRobots(j, ref connected);
                         }
                     }
                 }
