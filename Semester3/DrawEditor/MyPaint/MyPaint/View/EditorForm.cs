@@ -29,23 +29,11 @@ namespace MyPaint.View
             _controller = new Controller.Controller(_model);
         }
 
-
-        private void Form1_Paint(object sender, PaintEventArgs e)
-        {
-            Debug.WriteLine("FormPaint");
-        }
-
-        //
         // panel
-        //
         private void panel_Paint(object sender, PaintEventArgs e)
         {
             buffGraph?.Render(e.Graphics);
             Debug.WriteLine("PanelPaint");
-        }
-
-        private void panel_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
         }
 
         private void panel_MouseDown(object sender, MouseEventArgs e)
@@ -54,7 +42,6 @@ namespace MyPaint.View
             {
                 _isDrawingLine = true;
                 _controller.BeginDrawingLine(new Point(e.X, e.Y));
-                Debug.WriteLine("BeginDrawingLine");
                 panel.Invalidate();
                 return;
             }
@@ -105,9 +92,7 @@ namespace MyPaint.View
             Debug.WriteLine("panel_click" + x + " " + y);
          }
 
-        //
         // buttons
-        //
         private void Undo_Click(object sender, EventArgs e)
         {
             _controller.Undo();
