@@ -1,0 +1,125 @@
+﻿using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
+using MyPaint.Model;
+
+namespace MyPaint.View
+{
+    public partial class EditorForm : Form
+    {
+        private readonly Model.Model _model;
+
+        private readonly Controller.Controller _controller;
+        private bool _isdrawingButtonOn;
+        private bool _isDrawingLine;
+        private bool _movingLine;
+        private int x, y;
+
+        public EditorForm()
+        {
+            InitializeComponent();
+            var gr = panel.CreateGraphics();
+            if (gr == null) throw new Exception();
+            gr.SmoothingMode = SmoothingMode.HighQuality | SmoothingMode.AntiAlias;
+            buffGraph = gContext.Allocate(gr, new Rectangle(0, 0, panel.Width, panel.Height));
+            _model = new Model.Model(new Builder(buffGraph));
+            buffGraph.Graphics.Clear(SystemColors.InactiveBorder);
+            _controller = new Controller.Controller(_model);
+        }
+
+        // panel
+        private void panel_Paint(object sender, PaintEventArgs e)
+        {
+            buffGraph?.Render(e.Graphics);
+            Debug.WriteLine("PanelPaint");
+        }
+
+        private void panel_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (_isdrawingButtonOn)
+            {
+                _isDrawingLine = true;
+                _controller.BeginDrawingLine(new Point(e.X, e.Y));
+                panel.Invalidate();
+                return;
+            }
+
+            if (_controller.TryBeginMoveLine(new Point(x, y)))
+            {
+                _movingLine = true;
+            }
+        }
+
+        private void panel_MouseMove(object sender, MouseEventArgs e)
+        {
+            x = e.X;
+            y = e.Y;
+            if ((!_model.IsEmpty() && _isDrawingLine) || _movingLine) // line != null && line.IsDrawing
+            {
+                _controller.CorrectSelectedLine(new Point(e.X, e.Y));
+                panel.Invalidate();
+            }
+        }
+
+        private void panel_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (_isDrawingLine)
+            {
+                _isDrawingLine = false;
+                _controller.EndDrawing(new Point(x, y));
+                panel.Invalidate();
+                Debug.WriteLine("MouseUp");
+            }
+            
+            if (_movingLine)
+            {
+                _movingLine = false;
+                _controller.EndMoving(new Point(x, y));
+                panel.Invalidate();
+            }
+        }
+        
+        private void panel_Click(object sender, EventArgs e)
+        {
+            if (!_isdrawingButtonOn)
+            {
+                _controller.TryChooseLine(x, y); //TODO:ну да
+                
+                panel.Invalidate();
+            }
+            Debug.WriteLine("panel_click" + x + " " + y);
+         }
+
+        // buttons
+        private void Undo_Click(object sender, EventArgs e)
+        {
+            _controller.Undo();
+            panel.Invalidate();
+        }
+
+        private void Redo_Click(object sender, EventArgs e)
+        {
+            _controller.Redo();
+            panel.Invalidate();
+        }
+
+        private void Delete_Click(object sender, EventArgs e)
+        {
+            _controller.Delete();
+            panel.Invalidate();
+        }
+
+        private void Cursor_Click(object sender, EventArgs e)
+        {
+            _isdrawingButtonOn = false;
+            Debug.WriteLine("CurcorClick");
+        }
+
+        private void Line_Click(object sender, EventArgs e)
+        {
+            _isdrawingButtonOn = true;
+        }
+    }
+}
