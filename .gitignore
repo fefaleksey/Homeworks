@@ -14,7 +14,7 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
-.vs/
+/.vs/
 
 
 # MSTest test Results
