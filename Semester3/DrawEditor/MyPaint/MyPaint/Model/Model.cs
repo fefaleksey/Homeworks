@@ -34,7 +34,7 @@ namespace MyPaint.Model
         /// </summary>
         /// <returns>Model is Empty or not</returns>
         public bool IsEmpty() => _lines.Count == 0;
-
+        
         /// <summary>
         /// Add line in model
         /// </summary>
@@ -78,6 +78,7 @@ namespace MyPaint.Model
         {
             _selectedLine?.EndDrawing();
             _selectedLine = line;
+            _selectedLine?.SelectLine();
         }
 
         /// <summary>

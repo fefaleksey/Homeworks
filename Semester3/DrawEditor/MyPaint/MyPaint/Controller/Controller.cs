@@ -17,12 +17,21 @@ namespace MyPaint.Controller
         private int _position = -1;
         private Point _startPoint;
         private bool _isDrawing;
-        //private Line startLine;
         
         public Controller(Model.Model model)
         {
             _model = model;
         }
+
+        /// <summary>
+        /// Undo stack is empty
+        /// </summary>
+        public bool IsUndoEmpty => _undoredolList.Count == 0 || _position == -1;
+
+        /// <summary>
+        /// Redo stack is empty
+        /// </summary>
+        public bool IsRedoEmpty => _position == _undoredolList.Count - 1;
         
         /// <summary>
         /// End drawing

@@ -95,6 +95,11 @@ namespace MyPaint.Model
             CorrectPoints();
         }
 
+        public void SelectLine()
+        {
+            _isSelected = true;
+        }
+
         /// <summary>
         /// Try select this line
         /// </summary>

@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using MyPaint.Model;
 
 namespace MyPaint.Controller.Commands
 {
@@ -9,7 +10,8 @@ namespace MyPaint.Controller.Commands
     {
         private readonly Point _startPoint;
         private readonly Point _finishPoint;
-
+        private Line _line;
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandMoveLine"/> class.
         /// </summary>
@@ -21,12 +23,15 @@ namespace MyPaint.Controller.Commands
             
         public bool Execute(Model.Model model)
         {
+            _line = model.GetSelectedLine();
+            model.SelectLine(_line);
             model.CorrectSelectedLine(_finishPoint);
             return true;
         }
 
         public void UnExecute(Model.Model model)
         {
+            model.SelectLine(_line);
             model.CorrectSelectedLine(_startPoint);
         }
     }

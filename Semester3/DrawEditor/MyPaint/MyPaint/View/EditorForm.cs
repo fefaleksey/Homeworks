@@ -29,6 +29,8 @@ namespace MyPaint.View
             _model = new Model.Model(new Builder(buffGraph));
             buffGraph.Graphics.Clear(SystemColors.InactiveBorder);
             _controller = new Controller.Controller(_model);
+            //Undo.Enabled = false;
+            //Redo.Enabled = false;
         }
 
         // panel
@@ -72,7 +74,6 @@ namespace MyPaint.View
                 _isDrawingLine = false;
                 _controller.EndDrawing(new Point(_x, _y));
                 panel.Invalidate();
-                Debug.WriteLine("MouseUp");
             }
             
             if (_movingLine)
@@ -81,29 +82,40 @@ namespace MyPaint.View
                 _controller.EndMoving(new Point(_x, _y));
                 panel.Invalidate();
             }
+            Redo.Enabled = !_controller.IsRedoEmpty;
+            Undo.Enabled = !_controller.IsUndoEmpty;
         }
         
         private void panel_Click(object sender, EventArgs e)
         {
             if (!_isdrawingButtonOn)
             {
-                _controller.TryChooseLine(_x, _y); //TODO:ну да
+                _controller.TryChooseLine(_x, _y);
                 
                 panel.Invalidate();
             }
-            Debug.WriteLine("panel_click" + _x + " " + _y);
          }
 
         // buttons
         private void Undo_Click(object sender, EventArgs e)
         {
             _controller.Undo();
+            if (_controller.IsUndoEmpty)
+            {
+                Undo.Enabled = false;
+            }
+            Redo.Enabled = true;//...
             panel.Invalidate();
         }
 
         private void Redo_Click(object sender, EventArgs e)
         {
             _controller.Redo();
+            if (_controller.IsRedoEmpty)
+            {
+                Redo.Enabled = false;
+            }
+            Undo.Enabled = true;
             panel.Invalidate();
         }
 
@@ -116,7 +128,6 @@ namespace MyPaint.View
         private void Cursor_Click(object sender, EventArgs e)
         {
             _isdrawingButtonOn = false;
-            Debug.WriteLine("CurcorClick");
         }
 
         private void Line_Click(object sender, EventArgs e)
