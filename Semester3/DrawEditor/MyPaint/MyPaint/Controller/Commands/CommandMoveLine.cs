@@ -2,7 +2,10 @@
 
 namespace MyPaint.Controller.Commands
 {
-    public class CommandMoveLine:ICommand
+    /// <summary>
+    /// Command to move a line
+    /// </summary>
+    public class CommandMoveLine : ICommand
     {
         private readonly Point _startPoint;
         private readonly Point _finishPoint;

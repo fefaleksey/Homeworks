@@ -9,10 +9,6 @@ namespace MyPaint.View
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        private void InitializeComponent1()
-        {
-            
-        }
         /// <summary>
         /// Освободить все используемые ресурсы.
         /// </summary>

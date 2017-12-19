@@ -6,14 +6,17 @@ using MyPaint.Model;
 
 namespace MyPaint.Controller
 {
+    /// <summary>
+    /// Form controller
+    /// </summary>
     class Controller
     {
         private readonly Model.Model _model;
 
         private readonly List<ICommand> _undoredolList = new List<ICommand>();
-        private int position = -1;
-        private Point startPoint;
-        private bool isDrawing;
+        private int _position = -1;
+        private Point _startPoint;
+        private bool _isDrawing;
         //private Line startLine;
         
         public Controller(Model.Model model)
@@ -27,9 +30,9 @@ namespace MyPaint.Controller
         /// <param name="point">Point from event</param>
         public void EndDrawing(Point point)
         {
-            if (isDrawing)
+            if (_isDrawing)
             {
-                var commandAdd = new CommandAddLine(startPoint, point);
+                var commandAdd = new CommandAddLine(_startPoint, point);
                 commandAdd.Execute(_model);
                 AddCommand(commandAdd);
                 _model.EndDrawing();
@@ -51,11 +54,11 @@ namespace MyPaint.Controller
         /// <param name="point">Point from event</param>
         public void BeginDrawingLine(Point point)
         {
-            isDrawing = true;
+            _isDrawing = true;
             var line = new Line(point);
             _model.AddLine(line);
-            startPoint.X = point.X;
-            startPoint.Y = point.Y;
+            _startPoint.X = point.X;
+            _startPoint.Y = point.Y;
             _model.BeginDrawingLine(line);
         }
 
@@ -84,7 +87,7 @@ namespace MyPaint.Controller
                 if (line != null)
                 {
                     //startLine = line.Clone();
-                    startPoint = point;
+                    _startPoint = point;
                     return true;
                 }
                 return false;
@@ -97,8 +100,8 @@ namespace MyPaint.Controller
         /// </summary>
         public void EndMoving(Point point)
         {
-            _model.CorrectSelectedLine(startPoint);
-            var commandMove = new CommandMoveLine(startPoint, point);
+            _model.CorrectSelectedLine(_startPoint);
+            var commandMove = new CommandMoveLine(_startPoint, point);
             commandMove.Execute(_model);
             AddCommand(commandMove);
         }
@@ -118,10 +121,10 @@ namespace MyPaint.Controller
         /// </summary>
         public void Undo()
         {
-            if (position > -1)
+            if (_position > -1)
             {
-                _undoredolList[position].UnExecute(_model);
-                --position;
+                _undoredolList[_position].UnExecute(_model);
+                --_position;
             }
         }
         
@@ -130,24 +133,24 @@ namespace MyPaint.Controller
         /// </summary>
         public void Redo()
         {
-            if (position + 1 < _undoredolList.Count)
+            if (_position + 1 < _undoredolList.Count)
             {
-                position++;
-                _undoredolList[position].Execute(_model);
+                _position++;
+                _undoredolList[_position].Execute(_model);
             }
         }
 
         private void AddCommand(ICommand command)
         {
-            if (position < _undoredolList.Count - 1)
+            if (_position < _undoredolList.Count - 1)
             {
-                position++;
-                _undoredolList.RemoveRange(position, _undoredolList.Count - position);
+                _position++;
+                _undoredolList.RemoveRange(_position, _undoredolList.Count - _position);
                 _undoredolList.Add(command);
             }
             else
             {
-                position++;
+                _position++;
                 _undoredolList.Add(command);
             }
         }

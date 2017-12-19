@@ -15,13 +15,15 @@ namespace MyPaint.View
         private bool _isdrawingButtonOn;
         private bool _isDrawingLine;
         private bool _movingLine;
-        private int x, y;
+        private int _x, _y;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EditorForm"/> class.
+        /// </summary>
         public EditorForm()
         {
             InitializeComponent();
             var gr = panel.CreateGraphics();
-            if (gr == null) throw new Exception();
             gr.SmoothingMode = SmoothingMode.HighQuality | SmoothingMode.AntiAlias;
             buffGraph = gContext.Allocate(gr, new Rectangle(0, 0, panel.Width, panel.Height));
             _model = new Model.Model(new Builder(buffGraph));
@@ -46,7 +48,7 @@ namespace MyPaint.View
                 return;
             }
 
-            if (_controller.TryBeginMoveLine(new Point(x, y)))
+            if (_controller.TryBeginMoveLine(new Point(_x, _y)))
             {
                 _movingLine = true;
             }
@@ -54,8 +56,8 @@ namespace MyPaint.View
 
         private void panel_MouseMove(object sender, MouseEventArgs e)
         {
-            x = e.X;
-            y = e.Y;
+            _x = e.X;
+            _y = e.Y;
             if ((!_model.IsEmpty() && _isDrawingLine) || _movingLine) // line != null && line.IsDrawing
             {
                 _controller.CorrectSelectedLine(new Point(e.X, e.Y));
@@ -68,7 +70,7 @@ namespace MyPaint.View
             if (_isDrawingLine)
             {
                 _isDrawingLine = false;
-                _controller.EndDrawing(new Point(x, y));
+                _controller.EndDrawing(new Point(_x, _y));
                 panel.Invalidate();
                 Debug.WriteLine("MouseUp");
             }
@@ -76,7 +78,7 @@ namespace MyPaint.View
             if (_movingLine)
             {
                 _movingLine = false;
-                _controller.EndMoving(new Point(x, y));
+                _controller.EndMoving(new Point(_x, _y));
                 panel.Invalidate();
             }
         }
@@ -85,11 +87,11 @@ namespace MyPaint.View
         {
             if (!_isdrawingButtonOn)
             {
-                _controller.TryChooseLine(x, y); //TODO:ну да
+                _controller.TryChooseLine(_x, _y); //TODO:ну да
                 
                 panel.Invalidate();
             }
-            Debug.WriteLine("panel_click" + x + " " + y);
+            Debug.WriteLine("panel_click" + _x + " " + _y);
          }
 
         // buttons

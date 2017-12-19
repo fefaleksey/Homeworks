@@ -3,13 +3,16 @@ using System.Drawing;
 
 namespace MyPaint.Model
 {
+    /// <summary>
+    /// Class for drawing into a form
+    /// </summary>
     public class Builder
     {
-        private BufferedGraphics _buffGraph;
+        private readonly BufferedGraphics _buffGraph;
 
         private readonly Color _backColor = SystemColors.InactiveBorder;
 
-        private Pen pen = new Pen(Color.Black) { Width = 3 };
+        private readonly Pen _pen = new Pen(Color.Black) { Width = 3 };
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Builder"/> class.
@@ -28,7 +31,7 @@ namespace MyPaint.Model
             _buffGraph.Graphics.Clear(_backColor);
             foreach (var line in lines)
             {
-                line.Draw(_buffGraph, pen);
+                line.Draw(_buffGraph, _pen);
             }
         }
     }

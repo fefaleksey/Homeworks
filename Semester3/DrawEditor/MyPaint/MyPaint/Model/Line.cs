@@ -5,7 +5,10 @@ using MyPaint.View;
 
 namespace MyPaint.Model
 {
-    public class Line:IEqualityComparer<Line>
+    /// <summary>
+    /// Line class
+    /// </summary>
+    public class Line : IEqualityComparer<Line>
     {
         private Point _point1;
         private Point _point2;
@@ -13,38 +16,48 @@ namespace MyPaint.Model
         private bool _isSelectedPoint1;
         private const int WightOfPen = 3;
 
-        public bool IsDrawing() => _isSelected;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Line"/> class.
+        /// </summary>
+        /// <param name="point">point</param>
+        public Line(Point point)
+        {
+            _isSelected = true;
+            _point1.X = point.X;
+            _point1.Y = point.Y;
+            _point2.X = point.X;
+            _point2.Y = point.Y;
+            CorrectPoints();
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Line"/> class.
+        /// </summary>
+        /// <param name="point">first point</param>
+        /// <param name="pointLast">second point</param>
+        public Line(Point point, Point pointLast)
+        {
+            _isSelected = true;
+            _point1.X = point.X;
+            _point1.Y = point.Y;
+            _point2.X = pointLast.X;
+            _point2.Y = pointLast.Y;
+            CorrectPoints();
+        }
+        
+        /// <summary>
+        /// End drawing
+        /// </summary>
         public void EndDrawing()
         {
             _isSelected = false;
         }
 
-        public Line Clone()
-        {
-            return new Line(_point1, _point2);
-        }                
-        
-        public Line(Point pointStart)
-        {
-            _isSelected = true;
-            _point1.X = pointStart.X;
-            _point1.Y = pointStart.Y;
-            _point2.X = pointStart.X;
-            _point2.Y = pointStart.Y;
-            CorrectPoints();
-        }
-        
-        public Line(Point pointStart, Point pointLast)
-        {
-            _isSelected = true;
-            _point1.X = pointStart.X;
-            _point1.Y = pointStart.Y;
-            _point2.X = pointLast.X;
-            _point2.Y = pointLast.Y;
-            CorrectPoints();
-        }
-
+        /// <summary>
+        /// Draw this line
+        /// </summary>
+        /// <param name="bufferedGraphics">buffer</param>
+        /// <param name="pen">pen</param>
         public void Draw(BufferedGraphics bufferedGraphics, Pen pen)
         {
             bufferedGraphics.Graphics.DrawLine(pen, _point1, _point2);
@@ -53,21 +66,24 @@ namespace MyPaint.Model
                 DrawSelected(bufferedGraphics, pen);
             }
         }
-
-        public void Choose()
-        {
-            _isSelected = true;
-        }
-
+        
+        /// <summary>
+        /// Draw a selection of this line
+        /// </summary>
+        /// <param name="bufferedGraphics">buffer</param>
+        /// <param name="pen">pen</param>
         private void DrawSelected(BufferedGraphics bufferedGraphics, Pen pen)
         {
             bufferedGraphics.Graphics.DrawEllipse(pen, _point1.X - 2, _point1.Y - 2, 4, 4);
             bufferedGraphics.Graphics.DrawEllipse(pen, _point2.X - 2, _point2.Y - 2, 4, 4);
         }
 
+        /// <summary>
+        /// Correct line
+        /// </summary>
+        /// <param name="point">new point</param>
         public void CorrectLine(Point point)
         {
-
             if (_isSelectedPoint1)
             {
                 _point1 = point;
@@ -79,6 +95,12 @@ namespace MyPaint.Model
             CorrectPoints();
         }
 
+        /// <summary>
+        /// Try select this line
+        /// </summary>
+        /// <param name="x">Coordinate x</param>
+        /// <param name="y">Coordinate y</param>
+        /// <returns>Success or not</returns>
         public bool TrySelect(int x, int y)
         {
             var distanse = Math.Abs((_point2.Y - _point1.Y) * x - (_point2.X - _point1.X) * y +
@@ -95,20 +117,11 @@ namespace MyPaint.Model
             return false;
         }
 
-        public bool Equals(Line x, Line y)
-        {
-            if (x?._point1 == y?._point1 && x?._point2 == y?._point2)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public int GetHashCode(Line obj)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// Try begin move this line
+        /// </summary>
+        /// <param name="point">Point from event</param>
+        /// <returns>Success or not</returns>
         public bool TryBeginMove(Point point)
         {
             var distanse = Math.Abs(Math.Pow(_point1.X - point.X, 2)
@@ -165,6 +178,22 @@ namespace MyPaint.Model
             {
                 _point2.Y = EditorForm.HeightOfPanel;
             }
+        }
+        
+        /// <summary>
+        /// For interface IEqualityComparer
+        /// </summary>
+        /// <param name="x">first line</param>
+        /// <param name="y">second line</param>
+        /// <returns>result of compare</returns>
+        public bool Equals(Line x, Line y)
+        {
+            return x?._point1 == y?._point1 && x?._point2 == y?._point2;
+        }
+
+        public int GetHashCode(Line obj)
+        {
+            throw new NotImplementedException();
         }
     }
 }

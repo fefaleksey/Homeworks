@@ -3,13 +3,19 @@ using System.Drawing;
 
 namespace MyPaint.Model
 {
+    /// <summary>
+    /// Form data
+    /// </summary>
     public class Model
     {
         private readonly List<Line> _lines = new List<Line>();
         private Line _selectedLine;
         private readonly Builder _builder;
 
-        //TODO: Написать нормальный коммент к конструктору
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Model"/> class.
+        /// </summary>
+        /// <param name="builder"></param>
         public Model(Builder builder)
         {
             _builder = builder;

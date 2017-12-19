@@ -2,7 +2,10 @@
 
 namespace MyPaint.Controller.Commands
 {
-    public class CommandDelete:ICommand
+    /// <summary>
+    /// Command to delete a line
+    /// </summary>
+    public class CommandDelete : ICommand
     {
         private Line _line;
         private bool _isExecute;

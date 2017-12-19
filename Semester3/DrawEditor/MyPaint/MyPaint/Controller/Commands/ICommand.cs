@@ -1,5 +1,8 @@
 ﻿namespace MyPaint.Controller.Commands
 {
+    /// <summary>
+    /// Interface for commands
+    /// </summary>
     public interface ICommand
     {
         /// <summary>

@@ -3,7 +3,10 @@ using MyPaint.Model;
 
 namespace MyPaint.Controller.Commands
 {
-    public class CommandAddLine:ICommand
+    /// <summary>
+    /// Command to add a line
+    /// </summary>
+    public class CommandAddLine : ICommand
     {
         private readonly Line _line;
 
