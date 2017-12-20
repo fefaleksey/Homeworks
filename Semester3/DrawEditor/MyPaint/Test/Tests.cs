@@ -50,5 +50,18 @@ namespace Test
             _controller.Delete();
             Assert.True(_model.IsEmpty());
         }
+
+        [Fact]
+        public void CommandMoveLineTest()
+        {
+            Init();
+            var line = new Line(new Point(1, 1), new Point(100, 100));
+            _model.AddLine(line);
+            _model.SelectLine(line);
+            _controller.TryBeginMoveLine(new Point(1, 1));
+            _controller.EndMoving(new Point(20, 20));
+            var correctLine = new Line(new Point(20,20), new Point(100,100));
+            Assert.True(correctLine.Equals(line, correctLine));
+        }
     }
 }
