@@ -37,7 +37,6 @@ namespace MyPaint.View
         private void panel_Paint(object sender, PaintEventArgs e)
         {
             buffGraph?.Render(e.Graphics);
-            Debug.WriteLine("PanelPaint");
         }
 
         private void panel_MouseDown(object sender, MouseEventArgs e)
@@ -60,7 +59,7 @@ namespace MyPaint.View
         {
             _x = e.X;
             _y = e.Y;
-            if ((!_model.IsEmpty() && _isDrawingLine) || _movingLine) // line != null && line.IsDrawing
+            if ((!_model.IsEmpty() && _isDrawingLine) || _movingLine)
             {
                 _controller.CorrectSelectedLine(new Point(e.X, e.Y));
                 panel.Invalidate();
@@ -104,7 +103,7 @@ namespace MyPaint.View
             {
                 Undo.Enabled = false;
             }
-            Redo.Enabled = true;//...
+            Redo.Enabled = true;
             panel.Invalidate();
         }
 

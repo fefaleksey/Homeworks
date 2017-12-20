@@ -9,7 +9,7 @@ namespace MyPaint.Controller
     /// <summary>
     /// Form controller
     /// </summary>
-    class Controller
+    public class Controller
     {
         private readonly Model.Model _model;
 

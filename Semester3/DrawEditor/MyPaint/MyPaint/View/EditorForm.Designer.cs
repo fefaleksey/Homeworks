@@ -133,7 +133,7 @@ namespace MyPaint.View
         public const int HeightOfPanel = 378;
         public const int WightOfPanel = 697;
         
-        private BufferedGraphics buffGraph;
+        public BufferedGraphics buffGraph;
         private BufferedGraphicsContext gContext = BufferedGraphicsManager.Current;
         private System.Windows.Forms.Panel panel;
         private System.Windows.Forms.Button Delete;
