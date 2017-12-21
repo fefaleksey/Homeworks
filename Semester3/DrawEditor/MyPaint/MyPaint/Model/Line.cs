@@ -14,12 +14,12 @@ namespace MyPaint.Model
         private Point _point2;
         private bool _isSelected;
         private bool _isSelectedPoint1;
-        private const int WightOfPen = 3;
+        private const int WidthOfPen = 3;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Line"/> class.
         /// </summary>
-        /// <param name="point">point</param>
+        /// <param name="point">Coordinate of first and second vertex</param>
         public Line(Point point)
         {
             _isSelected = true;
@@ -112,14 +112,9 @@ namespace MyPaint.Model
                                     _point2.X * _point1.Y - _point2.Y * _point1.X) /
                            Math.Sqrt((_point2.Y - _point1.Y) * (_point2.Y - _point1.Y) +
                                      (_point2.X - _point1.X) * (_point2.X - _point1.X));
-
-            if (distanse < WightOfPen + 2)
-            {
-                _isSelected = true;
-                return true;
-            }
-            _isSelected = false;
-            return false;
+            
+            _isSelected = distanse < WidthOfPen + 2;
+            return _isSelected;
         }
 
         /// <summary>
@@ -131,17 +126,15 @@ namespace MyPaint.Model
         {
             var distanse = Math.Abs(Math.Pow(_point1.X - point.X, 2)
                                     + Math.Pow(_point1.Y - point.Y, 2));
-            if (distanse < (double) WightOfPen / 2 + 4)
+            if (distanse < (double) WidthOfPen / 2 + 4)
             {
-                //_isSelected = true;
                 _isSelectedPoint1 = true;
                 return true;
             }
             distanse = Math.Abs(Math.Pow(_point2.X - point.X, 2)
                                 + Math.Pow(_point2.Y - point.Y, 2));
-            if (distanse < (double) WightOfPen / 2 + 4)
+            if (distanse < (double) WidthOfPen / 2 + 4)
             {
-                //_isSelected = true;
                 _isSelectedPoint1 = false;
                 return true;
             }

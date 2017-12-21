@@ -65,10 +65,8 @@ namespace MyPaint.Model
         /// Get selected line
         /// </summary>
         /// <returns>Selected line</returns>
-        public Line GetSelectedLine()
-        {
-            return _selectedLine;
-        }
+        public Line GetSelectedLine() => _selectedLine;
+        
 
         /// <summary>
         /// Select line
@@ -159,11 +157,7 @@ namespace MyPaint.Model
         /// <returns>Success or not</returns>
         public bool TryBeginMoveLine(Point point)
         {
-            if (_selectedLine != null && _selectedLine.TryBeginMove(point))
-            {
-                return true;
-            }
-            return false;
+            return _selectedLine != null && _selectedLine.TryBeginMove(point);
         }
     }
 }

@@ -7,6 +7,9 @@ using MyPaint.Model;
 
 namespace MyPaint.View
 {
+    /// <summary>
+    /// Editor of form
+    /// </summary>
     public partial class EditorForm : Form
     {
         private readonly Model.Model _model;
@@ -29,8 +32,6 @@ namespace MyPaint.View
             _model = new Model.Model(new Builder(buffGraph));
             buffGraph.Graphics.Clear(SystemColors.InactiveBorder);
             _controller = new Controller.Controller(_model);
-            //Undo.Enabled = false;
-            //Redo.Enabled = false;
         }
 
         // panel
