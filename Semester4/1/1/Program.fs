@@ -20,7 +20,7 @@ let createList n m =
     let rec pow n =
         if n > 0 then 2 * pow (n - 1)
         else 1
-    let rec create list n s currentPow2=
+    let rec create list n s currentPow2 =
         if s > n then create (currentPow2 / 2 :: list) n (s - 1) (currentPow2 / 2)
         else pow s :: list
     create [] n (n + m) (pow (n + m + 1))
