@@ -7,27 +7,27 @@ open solve
 
 [<Fact>]
 let ``Test count1`` () =
-    Assert.True((count1 [1;2;3;4;5;6]) = 3)
+    Assert.True((calculateUsingMap [1;2;3;4;5;6]) = 3)
 
 [<Fact>]
 let ``Test count2`` () =
-    Assert.True((count2 [1;2;3;4;5;6]) = 3)
+    Assert.True((calculateUsingFold [1;2;3;4;5;6]) = 3)
 
 [<Fact>]
 let ``Test count3`` () =
-    Assert.True((count3 [1;2;3;4;5;6]) = 3)
+    Assert.True((calculateUsingFilter [1;2;3;4;5;6]) = 3)
 
 [<Fact>]
 let ``Test count1 empty`` () =
-    Assert.Equal(0, (count3 []))
+    Assert.Equal(0, (calculateUsingMap []))
 
 [<Fact>]
 let ``Test count2 empty`` () =
-    Assert.Equal(0, (count3 []))
+    Assert.Equal(0, (calculateUsingFold []))
 
 [<Fact>]
 let ``Test count3 empty`` () =
-    Assert.Equal(0, (count3 []))
+    Assert.Equal(0, (calculateUsingFilter []))
 
 [<Fact>]
 let ``Test mapTree`` () =
