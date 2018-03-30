@@ -1,10 +1,10 @@
 ﻿namespace task3 
 module solve =
-    let count1 list = List.map (fun x -> if x % 2 = 0 then 1 else 0) list |> List.sum
+    let calculateUsingMap list = List.map (fun x -> (x + 1) % 2) list |> List.sum
     
-    let count2 list = List.fold (fun acc elem -> if elem % 2 = 0 then acc + 1 else acc) 0 list
+    let calculateUsingFold list = List.fold (fun acc elem -> if elem % 2 = 0 then acc + 1 else acc) 0 list
     
-    let count3 list = List.filter (fun x -> x % 2 = 0) list |> List.length
+    let calculateUsingFilter list = List.filter (fun x -> x % 2 = 0) list |> List.length
     
     type Tree<'a> = 
         | Empty
@@ -28,13 +28,13 @@ module solve =
             match tree with
             | Null -> 0
             | Value a -> a
-            | Add (l,r) -> (calculate r) + (calculate l)
-            | Mult (l,r) -> (calculate r ) * (calculate l )
-            | Div (l,r) -> (calculate r ) / (calculate l )
-            | Sub (l,r) -> (calculate l ) - (calculate r )
+            | Add (l, r) -> (calculate r) + (calculate l)
+            | Mult (l, r) -> (calculate r) * (calculate l)
+            | Div (l, r) -> (calculate r) / (calculate l)
+            | Sub (l, r) -> (calculate l) - (calculate r)
         calculate tree
     
-    let generateSequence _ = 
-        let isPrime x = {2..x-1} |> Seq.exists(fun a -> a % x = 0) |> not
-        Seq.initInfinite (fun x -> x+2) |> Seq.filter isPrime
+    let generateSequence() : seq<int> =
+        let natsFrom2 = Seq.initInfinite (fun x -> x + 2)
+        Seq.unfold (fun x -> Some(Seq.head x, Seq.filter (fun el -> el % (Seq.head x) <> 0) <| Seq.tail x)) <| Seq.initInfinite (fun x -> x + 2)
     
