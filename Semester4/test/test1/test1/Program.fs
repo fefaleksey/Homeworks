@@ -14,16 +14,17 @@ type Node<'a> =
 let findMinDistance tree =
     let rec find (root : Node<'a>) (minDepth : int) depth = 
         match root with
-        | Empty -> 0
+        | Empty -> failwith("tree is empty")
         | Node (_, b, c) ->
             match b,c with
-            | Empty, Empty -> min minDepth depth
+            | Empty, Empty -> 
+                if minDepth = -1 then depth else min minDepth depth
             | node, Empty -> find node minDepth (depth + 1)
             | Empty, node -> find node minDepth (depth + 1)
             | left, right -> 
                 let newMin = find left minDepth (depth + 1)
                 find right newMin (depth + 1)
-    if tree = Empty then failwith("tree is empty")
-    find tree 0 0
+    //if tree = Empty then failwith("tree is empty")
+    find tree -1 0
     
     

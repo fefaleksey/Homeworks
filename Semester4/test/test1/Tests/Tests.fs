@@ -19,6 +19,11 @@ let ``averageValue`` () =
     Assert.Equal(d, averageValue [0.5; 0.2; 0.8])
 
 [<Fact>]
+let ``findMinDistance in simple tree`` () =
+    let tree = Node(1, Empty, Empty)
+    Assert.Equal(0, findMinDistance tree)
+
+[<Fact>]
 let ``findMinDistance`` () =
     let tree = Node (1, Node(1, Empty, Empty), Node(2,Empty,Empty))
     Assert.Equal(1, findMinDistance tree)
