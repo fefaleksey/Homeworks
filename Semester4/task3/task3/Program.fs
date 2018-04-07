@@ -34,7 +34,7 @@ module solve =
             | Sub (l, r) -> (calculate l) - (calculate r)
         calculate tree
     
-    let generateSequence() : seq<int> =
+    let generateSequence() =
         let natsFrom2 = Seq.initInfinite (fun x -> x + 2)
         Seq.unfold (fun x -> Some(Seq.head x, Seq.filter (fun el -> el % (Seq.head x) <> 0) <| Seq.tail x)) <| Seq.initInfinite (fun x -> x + 2)
     
