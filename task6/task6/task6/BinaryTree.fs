@@ -77,7 +77,7 @@ module binaryTree =
         /// </summary>
         /// <param name="value">value of element</param>
         /// <returns>true or falsefalse</returns>
-        member this.isExist value =
+        member this.IsExist value =
             let rec search value root =
                 match root with
                 | Empty -> false
@@ -104,8 +104,8 @@ module binaryTree =
                             let newValue = searchMin r |> getValue |> Option.get
                             let newRight = delete newValue r
                             Node(newValue, l, newRight)            
-            if this.isExist value then this.root <- delete value this.root
+            if this.IsExist value then this.root <- delete value this.root
         /// <summary>
         /// Reilize for IEnumerable
         /// </summary>
-        member  this.GetEnumerator() = new TreeEnumerator<'a>(this.root)
+        member  this.GetEnumerator() = new TreeEnumerator<'a>(this.root) :> IEnumerator
