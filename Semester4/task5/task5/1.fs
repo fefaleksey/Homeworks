@@ -1,18 +1,20 @@
 ﻿namespace solve
-    module task5 =
-        let check (s : string) =
+    module task1 =
+        let checkBrackets (s : string) =
             let list = s.ToCharArray() |> Array.toList
-            
-            let rec checkBrackets list brackets =
+            let checkHead head (brackets : char list) =
+                match head with
+                | ')' -> brackets.Head = '('
+                | ']' -> brackets.Head = '['
+                | '}' -> brackets.Head = '{'
+                | _ -> false
+            let rec check list brackets =
+                printfn "%A ||| %A" list brackets
                 match list with
                 | [] -> brackets = []
                 | head :: tail -> 
                     match head with
-                    |_ when (head = '{' || head = '[' || head = '(') -> checkBrackets tail (head :: brackets)
-                    |'}' -> if brackets.Head = '}' then checkBrackets list brackets.Tail else false
-                    |']' -> if brackets.Head = ']' then checkBrackets list brackets.Tail else false
-                    |')' -> if brackets.Head = ')' then checkBrackets list brackets.Tail else false
-                    | _ -> checkBrackets list brackets.Tail
-            
-            checkBrackets list []
-        ()
+                    |_ when (head = '{' || head = '[' || head = '(') -> check tail (head :: brackets)
+                    | ')' | ']' | '}' -> if checkHead head brackets then check tail (List.tail brackets) else false
+                    | _ -> check tail brackets
+            check list []

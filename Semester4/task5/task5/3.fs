@@ -1,5 +1,5 @@
 namespace solve
-    module task5 = 
+    module task3 = 
         open System.Linq.Expressions
         open System
         open System.IO
@@ -104,4 +104,3 @@ namespace solve
                 | _ -> printfn "Unknown command"
                        run phoneBook
             run []
-            
