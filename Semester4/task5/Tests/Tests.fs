@@ -4,6 +4,7 @@ open System
 open System.Collections
 open System.Collections.Generic
 open Xunit
+open FsCheck
 open Solve
 open task1
 open task2
@@ -59,4 +60,16 @@ let ``save and load records from file, after save and load phone book shall not 
     Assert.Equal(0, s2)
     let s3 = String.Compare ("ll | 230", loadedRecords.[0].ToString())
     Assert.Equal(0, s3)
+    
+[<Fact>]
+let ``check func and func'1 for equality`` () =
+    Check.Quick (fun x l -> func x l = func'1 x l)
+
+[<Fact>]
+let ``check func and func'2 for equality`` () =
+    Check.Quick (fun x l -> func x l = func'2 x l)
+
+[<Fact>]
+let ``check func and func'3 for equality`` () =
+    Check.Quick (fun x l -> func x l = func'3 x l)
     
