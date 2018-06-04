@@ -1,10 +1,10 @@
-namespace solve
+namespace Solve
     module task3 = 
         open System.Linq.Expressions
         open System
         open System.IO
         
-        type person (phone : string, name : string) = 
+        type Person (phone : string, name : string) = 
                     member this.phoneNumber = phone
                     member this.name = name
                     override this.ToString() = this.name + " | " + this.phoneNumber
@@ -19,58 +19,58 @@ namespace solve
             printfn "6 - save records to file"
             printfn "7 - load records from file"
         
-        let addRecord person (phoneBook : List<person>) = 
+        let addRecord person (phoneBook : List<Person>) = 
             person :: phoneBook
         
-        let findPhone name (phoneBook  : List<person>) = 
-            let rec find (phoneBook : List<person>) (name : string) = 
+        let findPhone name (phoneBook  : List<Person>) = 
+            let rec find (phoneBook : List<Person>) (name : string) = 
                 match phoneBook with
                 | [] -> None
                 | h :: t -> if h.name = name then Some h.phoneNumber else find t name
             find phoneBook name
         
-        let findName number  (phoneBook  : List<person>) =
-            let rec find (phoneBook : List<person>) (number : string) = 
+        let findName number  (phoneBook  : List<Person>) =
+            let rec find (phoneBook : List<Person>) (number : string) = 
                 match phoneBook with
                 | [] -> None
                 | h :: t -> if h.phoneNumber = number then Some h.name else find t number
             find phoneBook number
         
-        let rec printAll (phoneBook : List<person>) =
+        let rec printAll (phoneBook : List<Person>) =
             match phoneBook with
             | [] -> ()
             | h :: t -> printfn "%O" h
                         printAll t
         
-        let saveall (filename : string) (phoneBook  : List<person>) = 
-            let rec toString (lastList : List<person>) newList = 
+        let saveAll (fileName : string) (phoneBook  : List<Person>) = 
+            let rec toString (lastList : List<Person>) newList = 
                 match lastList with
                 | h :: t -> toString t (h.ToString() :: newList)
                 | [] -> newList
             let list = toString phoneBook []
-            File.WriteAllLines(filename, list)
+            File.WriteAllLines(fileName, list)
             
-        let read filename (phoneBook  : List<person>) = 
-            let rec save (lines : List<string>) (phoneBook  : List<person>) = 
+        let load fileName (phoneBook  : List<Person>) = 
+            let rec save (lines : List<string>) (phoneBook  : List<Person>) = 
                 match lines with
                 | [] -> phoneBook
                 | head :: tail -> 
-                    let personarr = head.Split ' '
-                    let person = person(personarr.[2], personarr.[0])
+                    let personArr = head.Split ' '
+                    let person = Person(personArr.[2], personArr.[0])
                     addRecord person phoneBook |> save tail
                     
-            if not (System.IO.File.Exists filename) then printfn "fuck"
-            if System.IO.File.Exists filename |> not 
+            if not (System.IO.File.Exists fileName) then printfn "fuck"
+            if System.IO.File.Exists fileName |> not 
             then 
                 printfn "file not found"
                 phoneBook
             else
-                let lines = System.IO.File.ReadAllLines filename |> Array.toList
+                let lines = System.IO.File.ReadAllLines fileName |> Array.toList
                 save lines phoneBook
             
-        let Run _ =
+        let run _ =
             printCommands
-            let rec run (phoneBook : List<person>) =
+            let rec run (phoneBook : List<Person>) =
                 printfn "Enter the command"
                 let command = System.Console.ReadLine()
                 match command with
@@ -79,8 +79,8 @@ namespace solve
                          let name = System.Console.ReadLine()
                          printfn "Enter phone number: "
                          let phoneNumber = System.Console.ReadLine()
-                         let person = person(phoneNumber, name)
-                         addRecord person phoneBook |> run
+                         let Person = Person(phoneNumber, name)
+                         addRecord Person phoneBook |> run
                 | "3" -> printfn "Enter the name: "
                          let name = System.Console.ReadLine()
                          findPhone name phoneBook |> printfn "%A"
@@ -93,12 +93,12 @@ namespace solve
                          run phoneBook
                 | "6" -> printfn "Enter the name of file: "
                          let name = System.Console.ReadLine()
-                         saveall name phoneBook
+                         saveAll name phoneBook
                          printfn "Done"
                          run phoneBook
                 | "7" -> printfn "Enter the name of file: "
                          let name = System.Console.ReadLine()
-                         let loadedRecords = read name phoneBook
+                         let loadedRecords = load name phoneBook
                          printfn "Done"
                          run loadedRecords
                 | _ -> printfn "Unknown command"

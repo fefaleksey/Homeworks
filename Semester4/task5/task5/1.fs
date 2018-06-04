@@ -1,4 +1,4 @@
-﻿namespace solve
+﻿namespace Solve
     module task1 =
         let checkBrackets (s : string) =
             let list = s.ToCharArray() |> Array.toList

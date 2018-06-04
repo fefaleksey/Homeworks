@@ -1,3 +1,4 @@
-namespace solve
+namespace Solve
     module task2 = 
+        
         ()
