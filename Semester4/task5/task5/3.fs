@@ -59,7 +59,7 @@ namespace Solve
                     let person = Person(personArr.[2], personArr.[0])
                     addRecord person phoneBook |> save tail
                     
-            if not (System.IO.File.Exists fileName) then printfn "fuck"
+            if not (System.IO.File.Exists fileName) then failwith "file not found"
             if System.IO.File.Exists fileName |> not 
             then 
                 printfn "file not found"

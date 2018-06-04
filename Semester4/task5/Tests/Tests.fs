@@ -59,3 +59,4 @@ let ``save and load records from file, after save and load phone book shall not 
     Assert.Equal(0, s2)
     let s3 = String.Compare ("ll | 230", loadedRecords.[0].ToString())
     Assert.Equal(0, s3)
+    
