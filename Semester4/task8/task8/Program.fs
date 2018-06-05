@@ -49,6 +49,3 @@ let printResults result =
                 for i in 0..references.Length - 1 do
                     printfn "%s --- %d" references.[i] results.[i].Length
     
-[<EntryPoint>]
-let main argv =
-    0 // return an integer exit code
