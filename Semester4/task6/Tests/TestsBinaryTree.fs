@@ -62,10 +62,12 @@ let ``Test_Foreach``() =
     tree.Add(4)
     tree.Add(6)
     tree.Add(7)
+    let actualValues = [5;3;4;6;7] 
+    let mutable treeValues = []
     let mutable i = 0
     for v in tree do
+        Assert.Equal(actualValues.[i], (v :?> int))
         i <- i + 1
-    Assert.Equal(5, i)
 
 [<Fact>]
 let ``Test_DeleteNonTrivial``() =

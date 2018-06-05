@@ -7,12 +7,10 @@ module binaryTree =
     type Node<'a> =
         | Empty
         | Node of 'a * Node<'a> * Node<'a>
-    
     let getValue this =
         match this with
         | Empty -> None
         | Node(value, _, _) -> Some(value)
-    
     let treeTolist treeRoot = 
         let rec recToList rootNode ls =
             match rootNode with 
@@ -33,30 +31,21 @@ module binaryTree =
                 | Empty -> list
                 | Node (el, left, right) -> el :: (List.append (rewrite left list) (rewrite right list))
             rewrite root []
-        
-        let mutable tree = rewriteInList root
+            
+        let mutable tree = rewriteInList root |> List.toSeq
+        let enumerator = tree.GetEnumerator()
         
         interface IEnumerator<'a> with
-            
-            member this.Reset() = 
-                position <- -1        
-            
-            member this.MoveNext() =
-                position <- position + 1
-                tree.Length > position
-            
-            member this.Current = 
-                tree.[position]
-            
-            member this.Dispose() = ()
-            
-            member this.get_Current() = 
-                (this :> IEnumerator<'a>).Current :> obj
-                
+            member this.Reset() = enumerator.Reset()
+            member this.MoveNext() = enumerator.MoveNext()
+            member this.Current = enumerator.Current
+            member this.get_Current() = enumerator.Current :> obj
+            member this.Dispose() = enumerator.Dispose()
+        
     /// <summary>
     /// Class which realise binary tree
     /// </summary>
-    /// <typeparam name="'a">'a is type of value which we can put in tree</typeparam>            
+    /// <typeparam name="T">T is type of value which we can put in tree</typeparam>            
     type BinaryTree<'a when 'a: comparison>() =
         let rec searchMin rootNode =
             match rootNode with
@@ -65,7 +54,7 @@ module binaryTree =
                 match l with
                 | Empty -> rootNode
                 | Node(_, _, _) -> searchMin l
-                
+        
         /// <summary>
         /// Root of the tree
         /// </summary>
@@ -89,7 +78,7 @@ module binaryTree =
         /// check included of element in tree
         /// </summary>
         /// <param name="value">value of element</param>
-        /// <returns>true or false</returns>
+        /// <returns>true or falsefalse</returns>
         member this.IsExist value =
             let rec search value root =
                 match root with
@@ -121,7 +110,7 @@ module binaryTree =
             if this.IsExist value then this.root <- delete value this.root
         
         /// <summary>
-        /// Reilize of IEnumerable
+        /// Reilize for IEnumerable
         /// </summary>
         member  this.GetEnumerator() = new TreeEnumerator<'a>(this.root) :> IEnumerator
         

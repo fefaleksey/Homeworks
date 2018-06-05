@@ -1,6 +1,1 @@
-﻿open LNW
-open System
-
-[<EntryPoint>]
-let main argv =
-    0
+﻿module Program

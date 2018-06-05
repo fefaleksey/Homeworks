@@ -4,23 +4,6 @@ open Xunit
 open LNW
 open solve
 
-/// <summary>
-/// Not randomly number generator for tests
-/// </summary>
-type DefinedGenerator(arrayOfRandom : double[]) =
-    let _arrayOfRandom = arrayOfRandom
-    let mutable _pointer = -1;
-    
-    /// <summary>
-    /// Get new random number
-    /// </summary>
-    /// <returns>New random number</returns>
-    interface IGenerator with 
-        member this.GetNumber =
-            _pointer <- _pointer + 1
-            if _pointer = _arrayOfRandom.Length then _pointer <- 0
-            _arrayOfRandom.[_pointer]
-
 let randomArray = [|0.3; 0.2|]
 let numberGenerator = new DefinedGenerator(randomArray)
 
@@ -54,8 +37,8 @@ let ``MakeStepTest``() =
     let network = new Network(arrayOfComputers, connectionMatrix)
     network.MakeStep
     let s = network.State
-    Assert.Equal("Infected 1 2", s)
-    
+    Assert.Equal("Infected 1 2", s)  
+
 [<Fact>]
 let ``ThreeComputerTest``() =
     let listOfOS = [{name = "Linux"; probabilityOfInfection = 0.25};
