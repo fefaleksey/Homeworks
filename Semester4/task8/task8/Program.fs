@@ -51,5 +51,4 @@ let printResults result =
     
 [<EntryPoint>]
 let main argv =
-    downloadRefPages "http://hwproj.me/courses/9/terms/4" |> printResults
     0 // return an integer exit code
