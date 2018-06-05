@@ -3,9 +3,13 @@ open System.Text.RegularExpressions
 open System.Net
 open System.IO
 
-type Result = 
+type Page = 
 | Data of string
 | Error
+
+type Result = 
+| Values of string[] * string[]
+| Null
 
 let downloadPage (url : string) =
     async { 
@@ -25,7 +29,7 @@ let downloadRefPages (url : string) =
         async {
             let! mainHtml = downloadPage url
             match mainHtml with
-            | Error -> ()
+            | Error -> return Null
             | Data(s) ->
                 let regex = new Regex(@"<a href=""http://.+?"">")
                 let matches = regex.Matches(s)
@@ -35,11 +39,17 @@ let downloadRefPages (url : string) =
                 let results' = Array.choose (function
                     | Error -> None
                     | Data(s) -> Some(s)) results
-                for i in 0..references.Length - 1 do
-                    printfn "%s --- %d" references.[i] results'.[i].Length 
+                return Values(references, results')
         }
         
+let printResults result =
+    match result with
+    | Null -> ()
+    | Values(references, results) ->
+                for i in 0..references.Length - 1 do
+                    printfn "%s --- %d" references.[i] results.[i].Length
+    
 [<EntryPoint>]
 let main argv =
-    downloadRefPages "http://hwproj.me/courses/9/terms/4"
+    downloadRefPages "http://hwproj.me/courses/9/terms/4" |> printResults
     0 // return an integer exit code
