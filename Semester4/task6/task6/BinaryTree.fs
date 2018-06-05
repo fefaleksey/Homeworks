@@ -7,10 +7,12 @@ module binaryTree =
     type Node<'a> =
         | Empty
         | Node of 'a * Node<'a> * Node<'a>
+    
     let getValue this =
         match this with
         | Empty -> None
         | Node(value, _, _) -> Some(value)
+    
     let treeTolist treeRoot = 
         let rec recToList rootNode ls =
             match rootNode with 
@@ -19,34 +21,42 @@ module binaryTree =
         recToList treeRoot []
         
     /// <summary>
-    /// Realize for IEnumerator
+    /// Realize of IEnumerator
     /// </summary>
     type TreeEnumerator<'a>(root : Node<'a>) =
+        
         let mutable position = -1
+        
         let rewriteInList (root : Node<'a>) =
             let rec rewrite root list =
                 match root with
                 | Empty -> list
                 | Node (el, left, right) -> el :: (List.append (rewrite left list) (rewrite right list))
             rewrite root []
+        
         let mutable tree = rewriteInList root
         
         interface IEnumerator<'a> with
+            
             member this.Reset() = 
                 position <- -1        
+            
             member this.MoveNext() =
                 position <- position + 1
                 tree.Length > position
+            
             member this.Current = 
                 tree.[position]
+            
             member this.Dispose() = ()
+            
             member this.get_Current() = 
                 (this :> IEnumerator<'a>).Current :> obj
                 
     /// <summary>
     /// Class which realise binary tree
     /// </summary>
-    /// <typeparam name="T">T is type of value which we can put in tree</typeparam>            
+    /// <typeparam name="'a">'a is type of value which we can put in tree</typeparam>            
     type BinaryTree<'a when 'a: comparison>() =
         let rec searchMin rootNode =
             match rootNode with
@@ -55,10 +65,12 @@ module binaryTree =
                 match l with
                 | Empty -> rootNode
                 | Node(_, _, _) -> searchMin l
+                
         /// <summary>
         /// Root of the tree
         /// </summary>
         member val root = Empty with get, set
+        
         /// <summary>
         /// Inserts an element with a value "value"
         /// </summary>
@@ -72,11 +84,12 @@ module binaryTree =
                     elif value > a then Node (a, l, add value r)
                     else root
             this.root <- add value this.root 
+        
         /// <summary>
         /// check included of element in tree
         /// </summary>
         /// <param name="value">value of element</param>
-        /// <returns>true or falsefalse</returns>
+        /// <returns>true or false</returns>
         member this.IsExist value =
             let rec search value root =
                 match root with
@@ -86,6 +99,7 @@ module binaryTree =
                     elif value < a then search value l
                     else search value r
             search value this.root
+        
         /// <summary>
         /// delete element from tree
         /// </summary>
@@ -105,7 +119,9 @@ module binaryTree =
                             let newRight = delete newValue r
                             Node(newValue, l, newRight)            
             if this.IsExist value then this.root <- delete value this.root
+        
         /// <summary>
-        /// Reilize for IEnumerable
+        /// Reilize of IEnumerable
         /// </summary>
         member  this.GetEnumerator() = new TreeEnumerator<'a>(this.root) :> IEnumerator
+        
