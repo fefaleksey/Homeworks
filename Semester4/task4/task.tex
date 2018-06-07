@@ -1,0 +1,24 @@
+%% It is just an empty TeX file.
+%% Write your code here.
+\documentclass[12pt]{article}
+\begin{document}
+\Huge
+\begin{center}
+    Task1
+\end{center}
+
+$\\*((\lambda a.(\lambda b.b\,b)\,(\lambda b.b\,b))\,b)\,((\lambda c.(c\,b)\,(\lambda a.a)) \to_\beta
+	\\*((\lambda b.b\,b)\,(\lambda b.b\,b))\,((\lambda c.c\,b)\,(\lambda a.a)) \to_\beta
+	\\*((\lambda b.b\,b)\,(\lambda b.b\,b))\,((\lambda a.a)\,b) \to_\beta 
+	\\*((\lambda b.b\,b)\,(\lambda b.b\,b))\,b$
+
+\begin{center}
+    Task2
+\end{center}
+
+$\\*S\,K\,K = 
+    \\*(\lambda x\,y\,z. x \, z \, (y \, z)) (\lambda x\, y.x)(\lambda x\, y.x)\to_\beta
+	\\*\lambda z.(\lambda x\,y.x)\,z((\lambda x\,y.x)\,z) \to_\beta
+	\\*\lambda z.z = I$
+
+\end{document}
